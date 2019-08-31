@@ -1,7 +1,6 @@
 package com.example.newsapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
     @NonNull
     @Override
     public NewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.e("xxxxxxxxxxxxxxxx",""+parent.toString()+"   "+viewType);
-        return new NewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.new_item, parent, false));
+       return new NewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.new_item, parent, false));
     }
 
     @Override
