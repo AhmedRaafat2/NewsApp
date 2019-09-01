@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected ArrayList<New> doInBackground(String... strings) {
 
+            ArrayList<New> newArrayListRequested = new ArrayList<>();
             try {
                 URL url = new URL(strings[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject response = root.getJSONObject("response");
                 JSONArray newsArray = response.getJSONArray("results");
 
+
                 for (int i =0;i<newsArray.length();i++){
 
                     JSONObject newItem = newsArray.getJSONObject(i);
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     String[] time = date[1].split("Z");
 
 
-                    newArrayList.add(new New(new_title,new_topic,date[0],time[0]));
+                    newArrayListRequested.add(new New(new_title,new_topic,date[0],time[0]));
                 }
 
 
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            return newArrayList;
+            return newArrayListRequested;
         }
 
         @Override
