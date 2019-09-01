@@ -1,7 +1,11 @@
 package com.example.newsapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +22,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnRecylerItemClickListner {
 
     private RecyclerView newsList;
     private ArrayList<New> newArrayList = new ArrayList<>();
+    private NewsListAdapter adapter;
     private static final String NEWS_REQUEST_URL = "http://content.guardianapis.com/search?q=debates&api-key=test";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         newsList = findViewById(R.id.news_recycler_list);
         newsList.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-
-//        newArrayList.add(new New("dddddddd","ggggggg","hhhhhhhhhh","ggggggggg"));
-//        newArrayList.add(new New("dddddddd","ggggggg","hhhhhhhhhh","ggggggggg"));
-//        newArrayList.add(new New("dddddddd","ggggggg","hhhhhhhhhh","ggggggggg"));
-
 
         NewAsync newAsync = new NewAsync();
         newAsync.execute(NEWS_REQUEST_URL);
@@ -45,9 +45,24 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        NewsListAdapter adapter = new NewsListAdapter(this,newArrayList);
+        adapter = new NewsListAdapter(this,newArrayList);
+        adapter.setClickListener(this);
         newsList.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        //Toast.makeText(this,""+position,Toast.LENGTH_LONG).show();
+
+        New selectedNew = newArrayList.get(position);
+        String url = selectedNew != null ? selectedNew.getNew_url() : null;
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
     }
 
 
@@ -56,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected ArrayList<New> doInBackground(String... strings) {
 
-            ArrayList<New> newArrayListRequested = new ArrayList<>();
             try {
                 URL url = new URL(strings[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -64,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.connect();
                 InputStream stream = urlConnection.getInputStream();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"), 8);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"), 8);
                 StringBuilder sb = new StringBuilder();
                 String line = null;
                 while ((line = reader.readLine()) != null) {
@@ -72,27 +86,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 stream.close();
 
-
                 JSONObject root = new JSONObject(sb.toString());
                 JSONObject response = root.getJSONObject("response");
                 JSONArray newsArray = response.getJSONArray("results");
 
-
                 for (int i =0;i<newsArray.length();i++){
 
                     JSONObject newItem = newsArray.getJSONObject(i);
-
                     String new_title = newItem.getString("webTitle");
                     String new_topic = newItem.getString("sectionName");
-                    String new_full_date = newItem.getString("webTitle");
-
+                    String new_full_date = newItem.getString("webPublicationDate");
                     String[] date = new_full_date.split("T");
                     String[] time = date[1].split("Z");
+                    String new_url = newItem.getString("webUrl");
 
-
-                    newArrayListRequested.add(new New(new_title,new_topic,date[0],time[0]));
+                    newArrayList.add(new New(new_title,new_topic,date[0],time[0],new_url));
                 }
-
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -102,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            return newArrayListRequested;
+            return newArrayList;
         }
 
         @Override

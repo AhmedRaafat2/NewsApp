@@ -9,9 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHolder> {
+public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHolder> implements OnRecylerItemClickListner {
     private Context context;
     private ArrayList<New> news;
+    private OnRecylerItemClickListner clickListener;
 
     public NewsListAdapter(Context context, ArrayList<New> hotels) {
         this.context = context;
@@ -39,7 +40,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
         return news.size();
     }
 
-    class NewHolder extends RecyclerView.ViewHolder{
+    public void setClickListener(OnRecylerItemClickListner itemClickListener) {
+        this.clickListener = itemClickListener;
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+
+    }
+
+    class NewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView new_title;
         TextView new_topic;
@@ -52,6 +62,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
             new_topic = itemView.findViewById(R.id.new_topic_tv);
             new_date = itemView.findViewById(R.id.new_date_tv);
             new_time = itemView.findViewById(R.id.new_time_tv);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
     }
 }

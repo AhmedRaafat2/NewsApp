@@ -5,12 +5,14 @@ public class New {
     private String newTopic;
     private String newDate;
     private String newTime;
+    private String new_url;
 
-    public New(String newTitle, String newTopic, String newDate, String newTime) {
+    public New(String newTitle, String newTopic, String newDate, String newTime, String new_url) {
         this.newTitle = newTitle;
         this.newTopic = newTopic;
         this.newDate = newDate;
         this.newTime = newTime;
+        this.new_url = new_url;
     }
 
     public String getNewTitle() {
@@ -43,5 +45,13 @@ public class New {
 
     public void setNewTime(String newTime) {
         this.newTime = newTime;
+    }
+
+    public String getNew_url() {
+        return new_url;
+    }
+
+    public void setNew_url(String new_url) {
+        this.new_url = new_url;
     }
 }
