@@ -6,13 +6,15 @@ public class New {
     private String newDate;
     private String newTime;
     private String new_url;
+    private String new_author;
 
-    public New(String newTitle, String newTopic, String newDate, String newTime, String new_url) {
+    public New(String newTitle, String newTopic, String newDate, String newTime, String new_url, String new_author) {
         this.newTitle = newTitle;
         this.newTopic = newTopic;
         this.newDate = newDate;
         this.newTime = newTime;
         this.new_url = new_url;
+        this.new_author = new_author;
     }
 
     public String getNewTitle() {
@@ -53,5 +55,13 @@ public class New {
 
     public void setNew_url(String new_url) {
         this.new_url = new_url;
+    }
+
+    public String getNew_author() {
+        return new_author;
+    }
+
+    public void setNew_author(String new_author) {
+        this.new_author = new_author;
     }
 }

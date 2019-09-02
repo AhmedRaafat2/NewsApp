@@ -33,6 +33,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
         holder.new_topic.setText(current_new.getNewTopic());
         holder.new_date.setText(current_new.getNewDate());
         holder.new_time.setText(current_new.getNewTime());
+        holder.new_author.setText(current_new.getNew_author());
+
     }
 
     @Override
@@ -55,6 +57,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
         TextView new_topic;
         TextView new_date;
         TextView new_time;
+        TextView new_author;
 
         public NewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +65,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
             new_topic = itemView.findViewById(R.id.new_topic_tv);
             new_date = itemView.findViewById(R.id.new_date_tv);
             new_time = itemView.findViewById(R.id.new_time_tv);
+            new_author =itemView.findViewById(R.id.new_author_tv);
             itemView.setOnClickListener(this);
         }
 
