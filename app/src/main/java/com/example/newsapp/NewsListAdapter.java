@@ -34,7 +34,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
         holder.new_date.setText(current_new.getNewDate());
         holder.new_time.setText(current_new.getNewTime());
         holder.new_author.setText(current_new.getNew_author());
-
     }
 
     @Override
@@ -48,7 +47,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewHol
 
     @Override
     public void onClick(View view, int position) {
-
     }
 
     class NewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
