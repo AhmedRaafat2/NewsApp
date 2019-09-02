@@ -8,17 +8,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements OnRecylerItemClic
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-
         if (isConnected) {
             NewAsync newAsync = new NewAsync();
             newAsync.execute(NEWS_REQUEST_URL);
@@ -68,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnRecylerItemClic
             newsList.setVisibility(View.INVISIBLE);
             offline_text.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
